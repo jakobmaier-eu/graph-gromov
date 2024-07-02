@@ -14,13 +14,13 @@ def f_diff(D, A, B):
     return np.linalg.norm(A@D- D@B, ord='fro')**2
 
 def grad_f_diff(D, A, B):
-    return 2 * (TODO)
+    return 2 * (A@A@D + D@B@B - 2*A@D@B)
 
 def f_minustrace(D, A, B):
     return -np.trace(A@ D @ B.T @ D.T)
 
-def grad_f_minustrace(D, X, Y): # negative because we minimize
-    return - 2 * (TODO)
+def grad_f_minustrace(D, A, B): # negative because we minimize
+    return - 2 * A@D@B
 
 def overlap(P1, P2): # potentially need to rescale for plot
     n = len(P1)
