@@ -68,7 +68,7 @@ def noisy_copy_different_nodes(G, rho, alpha="preserve"):
     for i in Gprime.nodes:
         if i >= n:
             for j in Gprime.nodes:
-                if np.random.rand() < TODO:
+                if np.random.rand() < 3:
                     Gprime.add_edge(i,j)
         
     return Gprime, nx.adjacency_matrix(Gprime)
