@@ -2,10 +2,10 @@ import numpy as np
 import networkx as nx
 
 def alpha_preserving_expected_edges(G, rho):
-    return -1
+    return 0
 
 def alpha_preserving_expected_nodes(G, rho):
-    return -1
+    return 0
 
 def random_subgraph(G, rho):
     # suppose that G is a simple graph
@@ -17,6 +17,9 @@ def random_subgraph(G, rho):
         if np.random.rand() > rho:
             Gsmall.remove_edge(e)
     return Gsmall, nx.adjacency_matrix(Gsmall)
+
+def copy_graph(G):
+    return G.copy(), nx.adjacency_matrix(G)
 
 def noisy_copy_same_nodes(G, rho, alpha="preserve"):
     # suppose that G is a simple graph
@@ -32,6 +35,7 @@ def noisy_copy_same_nodes(G, rho, alpha="preserve"):
     Gsmall = G.copy()
     for e in Gsmall.edges:
         if np.random.rand() > rho:
+            print("ohno")
             Gsmall.remove_edge(e)
     # Edge addition procedure
     Gprime = Gsmall.copy()
