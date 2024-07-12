@@ -46,7 +46,7 @@ def sinkhorn(a, b, C, epsilon, threshold, max_iteration):
         k = k + 1
     return P
 
-#graphes pour test
+#Graphs for tests
 
 def sample_Erdos_Renyi(n, p, seed=123):
     G = nx.erdos_renyi_graph(n, p, seed, directed=False)
@@ -61,7 +61,7 @@ max_iteration = 100
 G1, A1 = sample_Erdos_Renyi(n, p)
 G2, A2 = sample_Erdos_Renyi(n, p)
 
-nx.draw_networkx(G1)
+nx.draw_networkx(G1)#useless ?
 plt.show()
 nx.draw_networkx(G2)
 plt.show()
@@ -86,7 +86,7 @@ M = 10 ##Calculer M ?
 #x y atoms of measures, P oracle from Sinkhorn
 def gradient(x, y, A, P):
     N = len(x)
-    M = len(y)
+    M = len(y)#useless ?
     S = np.zeros((N, M))
     for i in range(N):
         for j in range(M):
@@ -122,7 +122,7 @@ def inexact_gradient_method(x, y, C0, L, P): #fonction L-smooth
         gamma = k/(4*L)
         tau = 2/(k + 2)
         B = min(1, M/(2 * np.linalg.norm(A - (1/(2*L)) *G )) ) * (A - (1/(2*L)*G))
-        C = min(1, M/(2 * np.linalg.norm(C - gamma *G )) ) * (C - gamma *G))
+        C = min(1, M/(2 * np.linalg.norm(C - gamma *G )) ) * (C - gamma *G)
         B = M/2 * min_wise_abs(2/M, A - (1/(2*L)) *G)
         C = M/2 * min_wise_abs(2/M, C - gamma * G)
         A = tau * C + (1 - tau) * B
