@@ -8,8 +8,9 @@ def d(A, B):
 
 def K(C, epsilon):
     K = C
-    for i in range(len(C)):
-        for j in range(len(C[0])):
+    n, m = C.shape
+    for i in range(n):
+        for j in range(m):
             K[i][j] = np.exp(C[i][j]/epsilon)
     return K
 
@@ -29,8 +30,7 @@ def div(a, b):
 def sinkhorn(a, b, C, epsilon, threshold, max_iteration):
     n = len(a)
     m = len(b)
-    N0 = len(C)
-    N1 = len(C[0])
+    N0, N1 = C.shape
     if n != N0 or m != N1: 
         raise RuntimeError("Vectors a, b and matrice C have non-compatible shape.")
     u = 1/n * np.transpose(np.ones((1, n))) #Taille a revoir ?
@@ -46,42 +46,6 @@ def sinkhorn(a, b, C, epsilon, threshold, max_iteration):
         k = k + 1
     return P
 
-#Graphs for tests
-
-def sample_Erdos_Renyi(n, p, seed=123):
-    G = nx.erdos_renyi_graph(n, p, seed, directed=False)
-    return G, nx.adjacency_matrix(G)
-
-p = 0.3
-n = 10
-epsilon = 0.1
-threshold = 0.1
-max_iteration = 100
-
-G1, A1 = sample_Erdos_Renyi(n, p)
-G2, A2 = sample_Erdos_Renyi(n, p)
-
-nx.draw_networkx(G1)#useless ?
-plt.show()
-nx.draw_networkx(G2)
-plt.show()
-
-#Cost function ?
-C = np.random.randint(10, size=(n, n))
-mes = 1/n * np.transpose( np.ones((1, n)) )
-C = (C + C.T)/2
-P = sinkhorn(mes, mes, C, epsilon, threshold, max_iteration)
-
-print(P)
-
-
-#plot in a good way ?
-
-
-##Adaptive gradient method with inexact oracle from Rioux 2024
-
-k_max = 100
-M = 10 ##Calculer M ?
 
 #x y atoms of measures, P oracle from Sinkhorn
 def gradient(x, y, A, P):
@@ -113,7 +77,7 @@ def min_wise_abs(m, M): #min(m, 1) * M
     return S
             
 #x and y support of measures, C0 in DM, P is an oracle from Sinkhorn
-def inexact_gradient_method(x, y, C0, L, P): #fonction L-smooth
+def inexact_gradient_method(x, y, k_max, M, C0, L, P): #fonction L-smooth
     C = C0
     k = 1
     A = C
