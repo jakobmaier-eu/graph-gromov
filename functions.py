@@ -22,7 +22,9 @@ def grad_f_minustrace(D, A, B): # negative because we minimize
     return - 2 * A@D@B
 
 def overlap(P1, P2): # potentially need to rescale for plot
-    n = len(P1)
+    n1, n2 = P1.shape
+    m1, m2 = P2.shape
+    n = n1
     return (1/n)*np.trace(P1.T @ P2)
 
 def is_permutation(M): # checks if matrix M is a permutation

@@ -6,8 +6,8 @@ from functions import matrix_heatmap
 
 # Every function in here yields adjacency matrices
 
-def sample_Erdos_Renyi(n, p, seed = 123):
-    G = nx.erdos_renyi_graph(n, p, seed, directed=False)
+def sample_Erdos_Renyi(n, p):
+    G = nx.erdos_renyi_graph(n, p, directed=False)
     return G, nx.adjacency_matrix(G)
 
 def gaussian_pointcloud_normalised(d, n, seed):
