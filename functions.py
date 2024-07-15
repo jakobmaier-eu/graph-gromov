@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import linprog, minimize_scalar
+import networkx as nx
 
 def project_to_perm(M, A_eq, b_eq): # Projects a matrix onto the set of permutations
     n = len(M)
@@ -57,3 +58,23 @@ def rand_perm_matrix(n):
             if pistar[i] == j:
                 Pstar[i,j] = 1
     return Pstar
+
+
+def plot_alignment(G, Gprime, A):
+    n1, n2 = A.shape
+    m1 = nx.Graph.number_of_nodes(G)
+    m2 = nx.Graph.number_of_nodes(Gprime)
+    if n1 != m1 or n2 != m2:
+        raise RuntimeError("Aligning G and Gprime with a wrong A matrix.")
+    for i in range(n1):
+        plt.plot(0, 2*i, 'bo')
+    for i in range(m2):
+        plt.plot(max(n1,m1)/2, 2*i, 'bo')
+    for i in range(n1):
+        for j in range(m2):
+            if A[i, j] != 0:
+                plt.plot([0, max(n1,m1)/2],[ 2*i, 2*j], linewidth = A[i,j] * 2, color='red')
+    plt.plot()
+
+    
+    

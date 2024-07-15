@@ -7,8 +7,6 @@ from scipy import optimize
 from functools import partial #to avaluate a function partially
 import networkx as nx
 
-#ISSUES BECAUSE MUNKRES USES LEN
-
 #Parameters
 n = 10
 p = 0.3
