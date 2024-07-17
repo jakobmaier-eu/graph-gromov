@@ -39,11 +39,10 @@ def iter_power(A):
     return v, np.inner(v_mem, v)/np.linalg.norm(v_mem)
 
 
-#Stand-by for today
+#Stand-by for today, I will finish it tomorrow
 def eigenalign(G, Gp, s1, s2, s3):
     A = align_matrix(G, Gp, s1, s2, s3)
     eigval, eigvect = np.linalg.eignh(A) #ascending order
     eigval = reversed(eigval)
     eigvect = reversed(eigvect)
-    a, b = linear_sum_assignment(a)
-    return -1
+    a, b = linear_sum_assignment()
