@@ -47,7 +47,7 @@ def noisy_copy_same_nodes(G, rho, alpha="preserve"):  #How to add nodes ?
 
 
 
-# ignore for no
+# ignore for now
 def noisy_copy_different_nodes(G, rho, alpha="preserve"):
     # suppose that G is a simple graph
     # rho = probability of keeping a node
