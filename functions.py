@@ -10,6 +10,21 @@ def project_to_perm(M, A_eq, b_eq): # Projects a matrix onto the set of permutat
     P = result.x.reshape(n, n)
     return P
 
+def argmax(iterable):
+    return max(enumerate(iterable), key=lambda x: x[1])[0]
+
+
+def greedy_to_perm(M):
+    n = len(M)
+    P = M
+    for i in range(n):
+        m = argmax(M[i])
+        for j in range(n):
+            P[i, j] = 0
+            P[j, m] = 0
+        P[i, m] = 1
+    return P
+
 def f_diff(D, A, B):
     return np.linalg.norm(A@D- D@B, ord='fro')**2
 

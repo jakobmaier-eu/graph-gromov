@@ -17,7 +17,7 @@ def random_subgraph(G, rho):
     Gsmall = G.copy()
     for e in Gsmall.edges:
         if np.random.rand() > rho:
-            Gsmall.remove_edge(e)
+            Gsmall.remove_edge(*e)
     return Gsmall, nx.adjacency_matrix(Gsmall)
 
 def noisy_copy_same_nodes(G, rho, alpha="preserve"):  #How to add nodes ?
@@ -34,7 +34,7 @@ def noisy_copy_same_nodes(G, rho, alpha="preserve"):  #How to add nodes ?
     Gsmall = G.copy()
     for e in Gsmall.edges:
         if np.random.rand() > rho:
-            Gsmall.remove_edge(e)
+            Gsmall.remove_edge(*e)
     # Edge addition procedure
     Gprime = Gsmall.copy()
     for i in Gprime.nodes:

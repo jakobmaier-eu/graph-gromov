@@ -20,10 +20,10 @@ def align_matrix(G, Gp):
     A = np.zeros((n,n, n,n))
     for i in range(n):
         for j in range(n):
-            ij = G.has_edge((i,j))
+            ij = G.has_edge(i,j)
             for k in range(n):
                 for l in range(n):
-                    kl = Gp.has_edge((k, l))
+                    kl = Gp.has_edge(k, l)
                     if ij and kl:
                         A[i, j, k, l] = 1/(Gp.degree(k) * Gp.degree(l))
     return A

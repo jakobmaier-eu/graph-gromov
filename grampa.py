@@ -18,5 +18,5 @@ def grampa(A, B, eta):
     K = np.zeros((n,n))
     for i in range(n):
         for j in range(n):
-            K= K + 1/(eta**2 + eigvalA[i]**2 + eigvalB[j]** 2) * eigvectA[i] * eigvalA[i].T * J * eigvectB[j] * eigvalB[j].T
+            K= K + 1/(eta**2 + eigvalA[i]**2 + eigvalB[j]** 2) * (eigvectA[i] * eigvalA[i].T ) @ J @ (eigvectB[j] * eigvalB[j].T)
     return project_to_perm(K, A_eq, b_eq)
