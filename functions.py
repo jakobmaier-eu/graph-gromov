@@ -91,5 +91,25 @@ def plot_alignment(G, Gprime, A):
                 plt.plot([0, max(n1,m1)/2],[ 2*i, 2*j], linewidth = A[i,j] * 2, color='red')
     plt.plot()
 
-    
-    
+def auxiliaire_norm_plot(L):
+    n = len(L)
+    m = len(L[0])
+    R = []
+    for i in range(m):
+        Li = []
+        for t in range(n):
+            Li.append(L[t][i])
+        R.append(Li)
+    return R
+
+
+def norm_plot(L, Label, x): #L[n, M] = matrice of the distances for all n=edges  
+    n = len(L)
+    m = len(Label)
+    R = auxiliaire_norm_plot(L)
+    for i in range(m):
+        plt.plot(x, R[i], label=Label[i])
+    plt.xlabel('n = number of edges')
+    plt.ylabel('|| A - PBtP||')
+    plt.legend()
+    plt.plot()
