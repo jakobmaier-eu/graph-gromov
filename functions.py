@@ -113,3 +113,14 @@ def norm_plot(L, Label, x): #L[n, M] = matrice of the distances for all n=edges
     plt.ylabel('|| A - PBtP||')
     plt.legend()
     plt.plot()
+
+#trying something
+def ihara(G):
+    n = nx.number_of_nodes(G)
+    m = nx.number_of_edges(G)
+    A = nx.adjacency_matrix(G)
+    A = A.toarray()
+    D = np.diag(np.diag(A))
+    def F(t):
+        return 1/((1 - t**2)**(m - n) * np.linalg.det(np.eye(n) - t*A + (D - np.eye(n)) * t**2))
+    return F
