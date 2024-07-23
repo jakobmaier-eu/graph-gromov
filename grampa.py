@@ -22,7 +22,7 @@ def grampa(A, B, eta):
     
     for i in range(n):
         for j in range(n):
-            K += 1 / (eta**2 + (eigvalA[i]**2 - eigvalB[j])**2) * (np.outer(eigvectA[:, i], eigvectA[:, i])) @ J @ (np.outer(eigvectB[:, j], eigvectB[:, j]))
+            K += 1 / (eta**2 + (eigvalA[i]- eigvalB[j])**2) * (np.outer(eigvectA[:, i], eigvectA[:, i])) @ J @ (np.outer(eigvectB[:, j], eigvectB[:, j]))
     
     row_ind, col_ind = linear_sum_assignment(-K)
     P = np.zeros((n, n))
