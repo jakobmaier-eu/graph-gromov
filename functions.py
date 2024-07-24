@@ -103,7 +103,7 @@ def auxiliaire_norm_plot(L):
     return R
 
 
-def norm_plot(L, Label, x): #L[n, M] = matrice of the distances for all n=edges  
+def norm_plot(L, Label, x, p, s): #L[n, M] = matrice of the distances for all n=edges  
     n = len(L)
     m = len(Label)
     R = auxiliaire_norm_plot(L)
@@ -112,6 +112,7 @@ def norm_plot(L, Label, x): #L[n, M] = matrice of the distances for all n=edges
     plt.xlabel('n = number of edges')
     plt.ylabel('|| A - PBtP||')
     plt.legend()
+    plt.title('p = ' + str(p) + ', s = ' + str(s))
     plt.plot()
 
 #trying something
