@@ -125,3 +125,16 @@ def ihara(G):
     def F(t):
         return 1/((1 - t**2)**(m - n) * np.linalg.det(np.eye(n) - t*A + (D - np.eye(n)) * t**2))
     return F
+
+def norm_plot_n(L, Label, x, p, s): #L[n, M] = matrice of the distances for all n=edges  
+    n = len(L)
+    m = len(Label)
+    R = auxiliaire_norm_plot(L)
+    l = np.arange(0, n, 1)
+    for i in range(m):
+        plt.plot(l, R[i], label=Label[i])
+    plt.ylabel('|| A - PBtP||')
+    plt.legend()
+    plt.title('p = ' + str(p) + ', s = ' + str(s) +', n = ' +str(x[0]))
+    plt.plot()
+

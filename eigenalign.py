@@ -30,12 +30,13 @@ def align_matrix(G, Gp, s1, s2, s3):
 #maybe useless
 def iter_power(A):
     n, m = A.shape
-    v = np.random.rand(1, n)
+    v = np.random.rand(n) #ISSUES HERE !!!
     v = v/np.sqrt(np.linalg.norm(v))
     v_mem = v
+    print(v)
     for k in range(100):
         v_mem = v
-        v = A@v
+        v = A*v
         v = v/np.sqrt(np.linalg.norm(v))
     return v, np.inner(v_mem, v)/np.linalg.norm(v_mem)
 
@@ -48,3 +49,37 @@ def eigenalign(G, Gp, s1, s2, s3):
     v = eigvect[l - 1]
     A_eq, b_eq =  bistochastic_equality_constraints(n)
     return project_to_perm(np.reshape(v, (n, n)), A_eq, b_eq)
+
+#Eig1 algorithm from Ganassali's thesis
+
+def find_permutation(v1, v2):
+    n = len(v1)
+    P = np.zeros((n,n))
+    for i in range(n):
+        j = 0
+        while v1[i] != v2[j]:
+            j = j+1
+        P[i, j] = 1
+    return P
+            
+
+def eig1(G, Gp):
+    A = (nx.adjacency_matrix(G)).toarray()
+    Ap = (nx.adjacency_matrix(Gp)).toarray()
+    v, _ = iter_power(A)
+    vp, _ = iter_power(Ap)
+    #idea is to use "inegalite de rearrangement"
+    print(v.shape)
+    print(vp.shape)
+    v_max = sorted(v)
+    vp_max = sorted(vp)
+    P = find_permutation(v, v_max)
+    Pp = find_permutation(vp, vp_max)
+    Pi_plus = Pp.T @ P
+    vp_max = sorted(-vp)
+    Pp = find_permutation(-vp, vp_max)
+    Pi_moins = Pp.T @ P
+    if np.inner(A, Pi_plus @ Ap @ Pi_plus.T) >= np.inner(A, Pi_moins @ Ap @ Pi_moins.T):
+        return Pi_plus
+    else:
+        return Pi_moins
