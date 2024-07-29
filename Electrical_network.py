@@ -3,16 +3,17 @@ import networkx as nx
 
 
 def eff_conductance(G, delta):
-    L = np.linalg.pinv((nx.laplacian_matrix(G)).toarray())
-    n, m = L.shape
-    R = np.zeros((n, n))
+    Lplus = np.linalg.pinv((nx.laplacian_matrix(G)).toarray())
+    n, m = Lplus.shape
+    C =  np.zeros((n, n))
     for i in range(n):
         for j in range(n):
-            if L[i, j] != 0:
-                R[i, j] = 1/L[i, j]
+            Rij = Lplus[i, i] + Lplus[j, j] - Lplus[i, j] - Lplus[j, i]
+            if Rij != 0:
+                C[i, j] = 1/Rij
             else:
-                R[i, j] = delta
-    return R
+                C[i, j] = delta
+    return C
 
 
 
