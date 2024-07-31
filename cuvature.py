@@ -13,6 +13,8 @@ def position_list(L, e):
             return i
     raise RuntimeError('No element e in L')
 
+#From Wu et al SUBSAMPLING IN LARGE GRAPHS USING RICCI CURVATURE 2023
+
 def subsampling(G, ntilde, Curv): #Better with S connected !!!
     n = nx.number_of_nodes(G)
     A = nx.adjacency_matrix(G)
@@ -36,17 +38,19 @@ def subsampling(G, ntilde, Curv): #Better with S connected !!!
         else:
             et = n1
             vtm = n2
+        if not(vtm in S): #don't know if that works right... only for the beginning so no problem when ntilde > 2 I think
+            S.append(vtm)
         S.append(et)
         vt = et
     return S, G.subgraph(S).copy()
 
 def add_nodes(G, k, p):
-    Gp = nx.convert_node_labels_to_integers(G)
+    Gp = nx.convert_node_labels_to_integers(G) #here modify labels so identity is no longer a good approximation
     n = nx.number_of_nodes(Gp)
     for i in range(n, n + k):
         Gp.add_node(i)
         for j in range(i):
-            if np.random.rand() < p:
+            if np.random.rand() < p: #maybe should change p at every loop ?
                 Gp.add_edge(i, j)
     return Gp
 
@@ -56,26 +60,25 @@ def how_many_edges_left(G, S): #Dans le sens de combien reste t-il
         l += G.degree[i]
     return l
 
-def noisy_curvature_graph(G, ntilde, curv="resistance"):
+def noisy_curvature_graph(G, p, s, curv="resistance"):
+    n = nx.number_of_nodes(G)
+    ntilde = round(s * n)
     if curv=="resistance": Curv= resistance_curvature(G)
     if curv=="ollivier-ricci": Curv= ollivier_ricci_curvature(G)
     S, Gs = subsampling(G, ntilde, Curv)
-    print(Gs)
-    print("S = ", S)
-    k = nx.number_of_nodes(G) - len(S)
+    k = n - len(S)
     l = nx.number_of_edges(G) - nx.number_of_edges(Gs)
-    print("k = ", k)
-    print("l =",l)
-    Gs = add_nodes(Gs, k, p) #HAS TO BE CHANGED
+    Gs = add_nodes(Gs, k, p) #works with p
     return Gs
 
-#some tests
-n = 50
-p = 0.5
-G = nx.erdos_renyi_graph(n, p)
-print("G = ", G)
+    #some tests
+    n = 50
+    p = 0.5
+    s = 0.8
+    G = nx.erdos_renyi_graph(n, p)
+    print("G = ", G)
 
-Gp = noisy_curvature_graph(G, 30)
-print("Gp = ",Gp)
-nx.draw(Gp)
-plt.show()
+    Gp = noisy_curvature_graph(G, s)
+    print("Gp = ",Gp)
+    nx.draw(Gp)
+    plt.show()

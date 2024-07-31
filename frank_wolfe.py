@@ -13,14 +13,14 @@ def frank_wolfe(A, B, no_opt_steps, stepsize="linesearch", Pstar=None, Dinit=Non
     A_eq, b_eq = bistochastic_equality_constraints(n)
     if method=="minustrace": f = f_minustrace; grad_f = grad_f_minustrace
     if method=="mindiff": f = f_diff; grad_f = grad_f_diff
-    if Dinit == None: D_init = (1/n)*np.ones((n, n))
-    D = np.copy(D_init)
+    if Dinit is None: Dinit = (1/n)*np.ones((n, n))
+    D = np.copy(Dinit)
     step = 0
     if isinstance(stepsize, float): gamma = stepsize
     if plot: dists_D_Dinit = []; errs_FW_goal = []; overlaps_D_Pstar = []
     while True:
         if plot:
-            T = D - D_init
+            T = D - Dinit
             dists_D_Dinit.append(np.linalg.norm(T))
             errs_FW_goal.append(f(D, A, B))
             overlaps_D_Pstar.append(overlap(D, Pstar))
@@ -45,3 +45,8 @@ def frank_wolfe(A, B, no_opt_steps, stepsize="linesearch", Pstar=None, Dinit=Non
                   +", #steps="+str(step)+", gamma="+str(stepsize))
         plt.show()
     return D
+
+def faqplus(A, B, no_opt_steps, stepsize="linesearch", Pstar=None, plot=False):
+    dinit = frank_wolfe(A, B, no_opt_steps, method="mindiff", plot=False)
+    R = frank_wolfe(A, B, no_opt_steps, Pstar=Pstar, Dinit=dinit, method="minustrace", plot=plot)
+    return R
