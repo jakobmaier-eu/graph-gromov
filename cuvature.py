@@ -70,15 +70,3 @@ def noisy_curvature_graph(G, p, s, curv="resistance"):
     l = nx.number_of_edges(G) - nx.number_of_edges(Gs)
     Gs = add_nodes(Gs, k, p) #works with p
     return Gs
-
-    #some tests
-    n = 50
-    p = 0.5
-    s = 0.8
-    G = nx.erdos_renyi_graph(n, p)
-    print("G = ", G)
-
-    Gp = noisy_curvature_graph(G, s)
-    print("Gp = ",Gp)
-    nx.draw(Gp)
-    plt.show()
